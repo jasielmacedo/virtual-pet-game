@@ -1,25 +1,21 @@
 using UnityEngine;
+using System.Linq;
 using Core.Game;
-using Game.Entities;
+using Game.Actors;
 using System.Collections.Generic;
 
 namespace Game.Manager
 {
-    public class OfficeInstance : Singleton<OfficeInstance>
+    public class HomeInstance : Singleton<HomeInstance>
     {
-        public enum EPlaceCategory
-        {
-            Toilets,
-            Coffee,
-            WorkStation,
-            Relax,
-            Lunch,
-            Water
-        }
+        public delegate void OnObjectRegistrationHandler(InteractiveObject obj);
 
-        public Dictionary<EPlaceCategory, Stack<Place>> availablePlaces = new Dictionary<EPlaceCategory, Stack<Place>>();
+        public event OnObjectRegistrationHandler OnObjectRegistered;
+        public event OnObjectRegistrationHandler OnObjectUnregistered;
 
-        private void OnEnable()
+        private Dictionary<InteractiveObject.EInteractiveType, List<InteractiveObject>> registeredObjects = new();
+
+        protected void OnEnable()
         {
             if (!SetInstance(this))
             {
@@ -27,37 +23,33 @@ namespace Game.Manager
                 return;
             }
         }
-
-        public int TotalToiletsAvailable => availablePlaces.ContainsKey(EPlaceCategory.Toilets) ? availablePlaces[EPlaceCategory.Toilets].Count : 0;
-        public int TotalCoffeePlacesAvailable => availablePlaces.ContainsKey(EPlaceCategory.Coffee) ? availablePlaces[EPlaceCategory.Coffee].Count : 0;
-        public int TotalWorkstationsAvailable => availablePlaces.ContainsKey(EPlaceCategory.WorkStation) ? availablePlaces[EPlaceCategory.WorkStation].Count : 0;
-        public int TotalPlacesToRelaxAvailable => availablePlaces.ContainsKey(EPlaceCategory.Relax) ? availablePlaces[EPlaceCategory.Relax].Count : 0;
-        public int TotalLunchPlacesAvailable => availablePlaces.ContainsKey(EPlaceCategory.Lunch) ? availablePlaces[EPlaceCategory.Lunch].Count : 0;
-        public int TotalWaterPlacesAvailable => availablePlaces.ContainsKey(EPlaceCategory.Water) ? availablePlaces[EPlaceCategory.Water].Count : 0;
-
-
-        [SerializeField] private int startWorkHour = 9;
-        [SerializeField] private int endWorkHour = 19;
-        [SerializeField] private Place entrance;
-        public Place Entrance => entrance;
-
-
-        public bool IsWorkingHour => TimerManager.hour >= startWorkHour && TimerManager.hour < endWorkHour;
-
-        public Place getPlaceAvailable(EPlaceCategory category)
-        {
-            if (availablePlaces.ContainsKey(category) && availablePlaces[category].Count > 0)
-                return availablePlaces[category].Pop();
-            return null;
+        
+        public int CountByType(InteractiveObject.EInteractiveType type){
+            return registeredObjects.ContainsKey(type) ? registeredObjects[type].Count: 0;
         }
 
-        public void setPlaceAvailable(EPlaceCategory category, Place place)
-        {
-            if (!availablePlaces.ContainsKey(category))
-                availablePlaces.Add(category, new Stack<Place>());
+        public InteractiveObject GetRandomObject(InteractiveObject.EInteractiveType type){
+            if(!registeredObjects.ContainsKey(type) || registeredObjects[type].Count == 0) return null;
 
-            if (!availablePlaces[category].Contains(place))
-                availablePlaces[category].Push(place);
+            return registeredObjects[type][Random.Range(0, registeredObjects[type].Count)];
+        }
+
+        public void RegisterObject(InteractiveObject obj){
+            if(!registeredObjects.ContainsKey(obj.InteractiveType))
+                registeredObjects.Add(obj.InteractiveType, new List<InteractiveObject>());
+            else if(registeredObjects[obj.InteractiveType].Contains(obj))
+                return;
+
+            registeredObjects[obj.InteractiveType].Add(obj);
+            OnObjectRegistered?.Invoke(obj);
+        }
+
+        public void UnregisterObject(InteractiveObject obj){
+            if(!registeredObjects.ContainsKey(obj.InteractiveType) || !registeredObjects[obj.InteractiveType].Contains(obj))
+                return;
+
+            registeredObjects[obj.InteractiveType].Remove(obj);
+            OnObjectUnregistered?.Invoke(obj);
         }
     }
 }

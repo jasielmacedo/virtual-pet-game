@@ -1,15 +1,18 @@
 using UnityEngine;
-using Simulation.Entities.Actions.States;
-using Simulation.Manager;
+using Game.AI.Entities.Actions.States;
+using Game.Manager;
+using Game.Actors;
 
-namespace Simulation.Entities.Actions
+namespace Game.AI.Entities.Actions
 {
-    public class ActionLunch : ActionIdle
+    public class ActionEat : ActionIdle
     {
         protected override float EvaluateExternalConsiderations()
         {
-            return OfficeInstance.Instance.TotalLunchPlacesAvailable > 0 ? 1f * externalConsiderationWeight : -1f;
+            return HomeInstance.Instance.CountByType(InteractiveObject.EInteractiveType.FOOD) > 0 ? 1f * externalConsiderationWeight : -1f;
         }
+
+        InteractiveObject objectOfInterest;
 
         protected override void OnStateMachineStateChanged()
         {
@@ -17,16 +20,17 @@ namespace Simulation.Entities.Actions
 
             if (m_stateMachine.IsCurrentState<StateExecute>())
             {
-                m_localCharacter.Interact(place, 2);
+                localCharacter.Interact(objectOfInterest);
+                objectOfInterest.StartUsing();
             }
         }
 
         public override void EnterAction()
         {
-            place = OfficeInstance.Instance.getPlaceAvailable(OfficeInstance.EPlaceCategory.Lunch);
-            if (place != null)
+            objectOfInterest = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.FOOD);
+            if (objectOfInterest != null)
             {
-                m_stateMachine.Params["destination"] = place.GetActorLocation;
+                m_stateMachine.Params["destination"] = objectOfInterest.GetActorLocation;
             }
             m_stateMachine.ChangeState<StateMoveTo>();
         }
@@ -38,7 +42,6 @@ namespace Simulation.Entities.Actions
             if (m_stateMachine.IsCurrentState<StateExecute>())
             {
                 hungerProperty.value -= 5f * deltaTime;
-                bladderProperty.value += 2f * deltaTime;
                 energyProperty.value -= 0.5f * deltaTime;
 
                 if (hungerProperty.normalizedValue == 0f)
@@ -49,6 +52,7 @@ namespace Simulation.Entities.Actions
         public override void ExitAction()
         {
             base.ExitAction();
+            objectOfInterest.StopUsing();
         }
     }
 }

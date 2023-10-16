@@ -13,13 +13,11 @@ namespace Game.AI.Entities.Actions
 
         protected UAIPropertyBoundedFloat hungerProperty;
         protected UAIPropertyBoundedFloat thirstyProperty;
-        protected UAIPropertyBoundedFloat hygieneProperty;
         protected UAIPropertyBoundedFloat energyProperty;
         protected UAIPropertyBoundedFloat funProperty;
-        protected UAIPropertyBoundedFloat socialProperty;
-        protected UAIPropertyBoundedFloat bladderProperty;
 
         protected bool m_initialInterruptionState;
+        protected Cat localCharacter;
 
         public override void Initialize(UAIAgent _owner)
         {
@@ -27,6 +25,8 @@ namespace Game.AI.Entities.Actions
 
             m_stateMachine = new FSMStateMachine();
             m_stateMachine.SetCurrentGameObject(_owner.gameObject);
+
+            localCharacter = _owner.GetComponent<Cat>();
 
             m_stateMachine.AddState<StateIdle>();
             m_stateMachine.AddState<StateMoveTo>();
@@ -37,14 +37,9 @@ namespace Game.AI.Entities.Actions
 
             m_stateMachine.Initialize();
 
-
-
             hungerProperty = Owner.properties["hunger"] as UAIPropertyBoundedFloat;
-            hygieneProperty = Owner.properties["hygiene"] as UAIPropertyBoundedFloat;
             energyProperty = Owner.properties["energy"] as UAIPropertyBoundedFloat;
             funProperty = Owner.properties["fun"] as UAIPropertyBoundedFloat;
-            socialProperty = Owner.properties["social"] as UAIPropertyBoundedFloat;
-            bladderProperty = Owner.properties["bladder"] as UAIPropertyBoundedFloat;
             thirstyProperty = Owner.properties["thirsty"] as UAIPropertyBoundedFloat;
 
             m_initialInterruptionState = m_interruptible;
@@ -55,13 +50,10 @@ namespace Game.AI.Entities.Actions
             if (m_stateMachine.IsCurrentState<StateMoveTo>())
             {
                 m_interruptible = false;
-                // m_localCharacter.Stand();
             }
             else if (m_stateMachine.IsCurrentState<StateExecute>())
             {
                 m_interruptible = m_initialInterruptionState;
-                // if (place != null && place.PlaceType == Place.EPlaceType.Sit)
-                //    m_localCharacter.Sit(place);
             }
         }
 
@@ -71,11 +63,8 @@ namespace Game.AI.Entities.Actions
 
             if (m_stateMachine.IsCurrentState<StateExecute>())
             {
-                energyProperty.value -= 0.1f * deltaTime;
-
-                bladderProperty.value += 0.5f * deltaTime;
+                energyProperty.value -= 0.5f * deltaTime;
                 funProperty.value -= 5f * deltaTime;
-                hygieneProperty.value -= 0.5f * deltaTime;
 
                 if (energyProperty.normalizedValue <= 0.1f)
                     Owner.SetCompleteAction(this.Id);
@@ -85,11 +74,6 @@ namespace Game.AI.Entities.Actions
         public override void ExitAction()
         {
             m_stateMachine.GotoInitialState();
-
-            //if (place != null && place.PlaceType == Place.EPlaceType.Sit)
-            //{
-            //    m_localCharacter.Stand();
-            //}
         }
     }
 }

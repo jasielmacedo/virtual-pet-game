@@ -2,56 +2,41 @@ using UnityEngine;
 using Core.Game;
 using Game.Manager;
 
-namespace Game.Entities
+namespace Game.Actors
 {
-    public class Place : Actor
-    {
-        public enum EPlaceType
-        {
-            Stand,
-            Sit,
-        }
+    public class Place : InteractiveObject {
 
-        public GameObject ObjectOfInterest => _objectOfInterest;
-        [SerializeField] private GameObject _objectOfInterest;
-
-        public EPlaceType PlaceType => _placeType;
-        [SerializeField] private EPlaceType _placeType;
-
-        public OfficeInstance.EPlaceCategory Category => _placeCategory;
-        [SerializeField] private OfficeInstance.EPlaceCategory _placeCategory;
+        [Header("Place")]
+        [SerializeField] private GameObject _additionalObjectOfInterest;
 
         [SerializeField] private bool rotateObjInterest;
         [SerializeField] private Vector3 ObjInterestAngleTarget;
 
-        Vector3 objInterestInitialPosition;
         Vector3 objInterestInitialRotationAngle;
 
         protected override void Awake()
         {
             base.Awake();
-            OfficeInstance.Instance.setPlaceAvailable(_placeCategory, this);
 
-            if (_objectOfInterest != null)
+            if (_additionalObjectOfInterest != null)
             {
-                objInterestInitialPosition = _objectOfInterest.transform.position;
-                objInterestInitialRotationAngle = _objectOfInterest.transform.eulerAngles;
+                objInterestInitialRotationAngle = _additionalObjectOfInterest.transform.eulerAngles;
             }
         }
 
-        public void StartUsing()
+        public override void StartUsing()
         {
-            if (rotateObjInterest && _objectOfInterest)
+            if (rotateObjInterest && _additionalObjectOfInterest)
             {
-                _objectOfInterest.transform.rotation = Quaternion.Euler(ObjInterestAngleTarget);
+                _additionalObjectOfInterest.transform.rotation = Quaternion.Euler(ObjInterestAngleTarget);
             }
         }
 
-        public void StopUsing()
+        public override void  StopUsing()
         {
-            if (_objectOfInterest)
+            if (_additionalObjectOfInterest)
             {
-                _objectOfInterest.transform.rotation = Quaternion.Euler(objInterestInitialRotationAngle);
+                _additionalObjectOfInterest.transform.rotation = Quaternion.Euler(objInterestInitialRotationAngle);
             }
         }
     }

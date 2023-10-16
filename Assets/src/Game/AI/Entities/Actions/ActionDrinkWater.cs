@@ -1,15 +1,18 @@
 using UnityEngine;
-using Simulation.Entities.Actions.States;
-using Simulation.Manager;
+using Game.AI.Entities.Actions.States;
+using Game.Manager;
+using Game.Actors;
 
-namespace Simulation.Entities.Actions
+namespace Game.AI.Entities.Actions
 {
     public class ActionDrinkWater : ActionIdle
     {
         protected override float EvaluateExternalConsiderations()
         {
-            return OfficeInstance.Instance.TotalWaterPlacesAvailable > 0 ? 1f * externalConsiderationWeight : -1f;
+            return HomeInstance.Instance.CountByType(InteractiveObject.EInteractiveType.DRINK) > 0 ? 1f * externalConsiderationWeight : -1f;
         }
+
+        InteractiveObject place;
 
         protected override void OnStateMachineStateChanged()
         {
@@ -17,19 +20,19 @@ namespace Simulation.Entities.Actions
 
             if (m_stateMachine.IsCurrentState<StateExecute>())
             {
-                m_localCharacter.Interact(place, 1);
+                localCharacter.Interact(place);
+                place.StartUsing();
             }
         }
 
         public override void EnterAction()
         {
-            place = OfficeInstance.Instance.getPlaceAvailable(OfficeInstance.EPlaceCategory.Water);
+            place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.DRINK);
             if (place != null)
             {
                 m_stateMachine.Params["destination"] = place.GetActorLocation;
             }
             m_stateMachine.ChangeState<StateMoveTo>();
-
             durationDrinking = 3f;
         }
 
@@ -44,7 +47,6 @@ namespace Simulation.Entities.Actions
                 if (m_initialInterruptionState != m_interruptible)
                     m_interruptible = m_initialInterruptionState;
 
-                bladderProperty.value += 8f * deltaTime;
                 thirstyProperty.value -= 40f * deltaTime;
                 durationDrinking -= deltaTime;
 
@@ -58,7 +60,7 @@ namespace Simulation.Entities.Actions
             base.ExitAction();
             if (place != null)
             {
-                OfficeInstance.Instance.setPlaceAvailable(OfficeInstance.EPlaceCategory.Coffee, place);
+                place.StopUsing();
             }
         }
     }

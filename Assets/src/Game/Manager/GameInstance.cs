@@ -160,9 +160,6 @@ namespace Game.Manager
             generalTimerCounter += Time.deltaTime;
 
             float hourSpeed = TimerManager.secondEquivalenceHour;
-            if (!OfficeInstance.Instance.IsWorkingHour)
-                hourSpeed /= 4;
-
             if (generalTimerCounter >= hourSpeed)
             {
                 generalTimerCounter = 0;
