@@ -79,6 +79,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 845333471736774191}
   - {fileID: 6522119075016130768}
   - {fileID: 1162474157345900005}
   - {fileID: 6545327102321755105}
@@ -405,6 +406,8 @@ MonoBehaviour:
   lookTargetVelocity: 30
   secondsBetweenEvaluations: 2
   linkedActions:
+  - action: {fileID: 8900554614024774128}
+    actionEnabled: 1
   - action: {fileID: 88384610178601796}
     actionEnabled: 1
   - action: {fileID: 9193346071845790682}
@@ -511,6 +514,56 @@ MonoBehaviour:
   maxValue: 100
   startValue: 50
   ChangePerSec: 0
+--- !u!1 &6482631083593992252
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 845333471736774191}
+  - component: {fileID: 8900554614024774128}
+  m_Layer: 0
+  m_Name: Idle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &845333471736774191
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482631083593992252}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5510417941810268431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8900554614024774128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6482631083593992252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d28787862ace1c540b62b6ee108bf2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_id: idle
+  m_priorityLevel: 10
+  m_interruptible: 1
+  considerations: []
+  considerExternalConsiderationsWhenEvaluate: 0
+  externalConsiderationWeight: 1
 --- !u!1 &7947455432480551362
 GameObject:
   m_ObjectHideFlags: 0
