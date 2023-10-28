@@ -2,6 +2,7 @@ using Game.AI.UtilityAI;
 using Game.Actors;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 
 namespace Game.AI.Entities
 {
@@ -10,6 +11,11 @@ namespace Game.AI.Entities
     {
         private NavMeshAgent _navMeshAgent;
         private Animator _localAnimator;
+
+        public UtilityAI.Property.UAIProperty StatHunger => this.properties["hunger"];
+        public UtilityAI.Property.UAIProperty StatThirst => this.properties["thirst"];
+        public UtilityAI.Property.UAIProperty StatEnergy => this.properties["energy"];
+        public UtilityAI.Property.UAIProperty StatFun => this.properties["fun"];
 
         protected override void Awake()
         {
@@ -52,6 +58,11 @@ namespace Game.AI.Entities
             {
                 _navMeshAgent.avoidancePriority = 50;
             }
+        }
+
+        public void SetWalkTo(Vector3 destination)
+        {
+            this.DemandAction("walkto");
         }
 
         InteractiveObject objectToLookAt;

@@ -12,7 +12,7 @@ namespace Game.AI.Entities.Actions
         protected FSMStateMachine m_stateMachine;
 
         protected UAIPropertyBoundedFloat hungerProperty;
-        protected UAIPropertyBoundedFloat thirstyProperty;
+        protected UAIPropertyBoundedFloat thirstProperty;
         protected UAIPropertyBoundedFloat energyProperty;
         protected UAIPropertyBoundedFloat funProperty;
 
@@ -40,7 +40,7 @@ namespace Game.AI.Entities.Actions
             hungerProperty = Owner.properties["hunger"] as UAIPropertyBoundedFloat;
             energyProperty = Owner.properties["energy"] as UAIPropertyBoundedFloat;
             funProperty = Owner.properties["fun"] as UAIPropertyBoundedFloat;
-            thirstyProperty = Owner.properties["thirsty"] as UAIPropertyBoundedFloat;
+            thirstProperty = Owner.properties["thirst"] as UAIPropertyBoundedFloat;
 
             m_initialInterruptionState = m_interruptible;
         }
@@ -63,6 +63,8 @@ namespace Game.AI.Entities.Actions
 
             if (m_stateMachine.IsCurrentState<StateExecute>())
             {
+                m_stateMachine.Params["interaction"] = 0;
+
                 energyProperty.value -= 0.5f * deltaTime;
                 funProperty.value -= 5f * deltaTime;
 

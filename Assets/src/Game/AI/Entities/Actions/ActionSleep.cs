@@ -7,16 +7,18 @@ namespace Game.AI.Entities.Actions
 {
     public class ActionSleep : ActionIdle
     {
-        InteractiveObject place;
-
         public override void EnterAction()
         {
-            place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.SLEEP_PLACE);
-            if (place != null)
+            GameObject[] availablePlaces = GameObject.FindGameObjectsWithTag("sleep");
+
+            if (availablePlaces.Length > 0)
             {
-                m_stateMachine.Params["destination"] = place.GetActorLocation;
+                Transform randomPlace = availablePlaces[Random.Range(0, availablePlaces.Length)].transform;
+                m_stateMachine.Params["destination"] = randomPlace.position;
                 m_stateMachine.ChangeState<StateMoveTo>();
-            }else {
+            }
+            else
+            {
                 // If no space is available. It'll sleep wherever it is.
                 m_stateMachine.ChangeState<StateExecute>();
             }
@@ -31,9 +33,10 @@ namespace Game.AI.Entities.Actions
                 if (m_initialInterruptionState != m_interruptible)
                     m_interruptible = m_initialInterruptionState;
 
-                funProperty.value -= 10f * deltaTime;
-                hungerProperty.value += 20f * deltaTime;
-                energyProperty.value += 5f * deltaTime;
+                funProperty.value -= 0.5f * deltaTime;
+                hungerProperty.value += 0.8f * deltaTime;
+                energyProperty.value += 4f * deltaTime;
+                thirstProperty.value += 0.1f * deltaTime;
 
                 if (funProperty.normalizedValue == 1f)
                     Owner.SetCompleteAction(this.Id);

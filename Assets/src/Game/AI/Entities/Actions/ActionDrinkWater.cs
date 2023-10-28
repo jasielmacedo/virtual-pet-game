@@ -47,7 +47,7 @@ namespace Game.AI.Entities.Actions
                 if (m_initialInterruptionState != m_interruptible)
                     m_interruptible = m_initialInterruptionState;
 
-                thirstyProperty.value -= 40f * deltaTime;
+                thirstProperty.value -= 40f * deltaTime;
                 durationDrinking -= deltaTime;
 
                 if (durationDrinking <= 0)
