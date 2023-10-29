@@ -9,7 +9,7 @@ namespace Game.AI.Entities.Actions
     {
         protected override float EvaluateExternalConsiderations()
         {
-            return HomeInstance.Instance.CountByType(InteractiveObject.EInteractiveType.FOOD) > 0 ? 1f * externalConsiderationWeight : -1f;
+            return HomeInstance.Instance.CountByType(InteractiveObject.EInteractiveType.FOOD) > 0 && hungerProperty.normalizedValue > 0.05f ? 1f * externalConsiderationWeight : -1f;
         }
 
         InteractiveObject objectOfInterest;
@@ -22,6 +22,7 @@ namespace Game.AI.Entities.Actions
             {
                 localCharacter.Interact(objectOfInterest);
                 objectOfInterest.StartUsing();
+                OwnerAnimator.Play("Eat", 0);
             }
         }
 
@@ -33,6 +34,8 @@ namespace Game.AI.Entities.Actions
                 m_stateMachine.Params["destination"] = objectOfInterest.GetActorLocation;
             }
             m_stateMachine.ChangeState<StateMoveTo>();
+
+
         }
 
         public override void Tick(float deltaTime)
@@ -41,8 +44,9 @@ namespace Game.AI.Entities.Actions
 
             if (m_stateMachine.IsCurrentState<StateExecute>())
             {
-                hungerProperty.value -= 5f * deltaTime;
-                energyProperty.value -= 0.5f * deltaTime;
+                hungerProperty.value -= 10f * deltaTime;
+                energyProperty.value -= 0.2f * deltaTime;
+                funProperty.value += 0.3f * deltaTime;
 
                 if (hungerProperty.normalizedValue == 0f)
                     Owner.SetCompleteAction(this.Id);
@@ -53,6 +57,7 @@ namespace Game.AI.Entities.Actions
         {
             base.ExitAction();
             objectOfInterest.StopUsing();
+            OwnerAnimator.Play("Stand", 0);
         }
     }
 }

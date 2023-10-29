@@ -7,10 +7,17 @@ namespace Game.AI.Entities.Actions
 {
     public class ActionWalkTo : ActionIdle
     {
+        float initialMovementSpeed = 0f;
+
         public override void EnterAction()
         {
-            if (m_stateMachine.Params.ContainsKey("destination"))
+            initialMovementSpeed = OwnerMovementController.speed;
+            OwnerAnimator.Play("Stand", 0);
+
+            if (Owner.Params.ContainsKey("destination"))
             {
+                m_stateMachine.Params["destination"] = Owner.Params["destination"];
+                OwnerMovementController.speed = 3;
                 m_stateMachine.ChangeState<StateMoveTo>();
             }
             else
@@ -23,16 +30,25 @@ namespace Game.AI.Entities.Actions
         {
             m_stateMachine.Tick(deltaTime);
 
-            if (m_stateMachine.IsCurrentState<StateExecute>())
+            if (m_stateMachine.IsCurrentState<StateMoveTo>())
             {
-                if (m_initialInterruptionState != m_interruptible)
-                    m_interruptible = m_initialInterruptionState;
-
                 funProperty.value -= 10f * deltaTime;
                 hungerProperty.value += 20f * deltaTime;
                 energyProperty.value += 5f * deltaTime;
-                Owner.SetCompleteAction(this.Id);
+
             }
+            else if (m_stateMachine.IsCurrentState<StateExecute>())
+            {
+                Owner.SetCompleteAction(Id);
+            }
+        }
+
+
+        public override void ExitAction()
+        {
+            base.ExitAction();
+            OwnerMovementController.speed = initialMovementSpeed;
+            OwnerAnimator.Play("Stand", 0);
         }
     }
 }

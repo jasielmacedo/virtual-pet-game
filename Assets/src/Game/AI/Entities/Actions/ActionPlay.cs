@@ -5,11 +5,11 @@ using Game.Actors;
 
 namespace Game.AI.Entities.Actions
 {
-    public class ActionDrinkWater : ActionIdle
+    public class ActionPlay : ActionIdle
     {
         protected override float EvaluateExternalConsiderations()
         {
-            return HomeInstance.Instance.CountByType(InteractiveObject.EInteractiveType.DRINK) > 0 && thirstProperty.normalizedValue > 0.1f ? 1f * externalConsiderationWeight : -1f;
+            return HomeInstance.Instance.CountByType(InteractiveObject.EInteractiveType.TOY) > 0 ? 1f * externalConsiderationWeight : -1f;
         }
 
         InteractiveObject place;
@@ -22,18 +22,30 @@ namespace Game.AI.Entities.Actions
             {
                 localCharacter.Interact(place);
                 place.StartUsing();
-                OwnerAnimator.Play("Drink", 0);
+                OwnerAnimator.Play("Surprise", 0);
+                startExecutingActionTimer = 0;
             }
         }
 
+        float startExecutingActionTimer = 0f;
+        float initialMovementSpeed = 0f;
+
         public override void EnterAction()
         {
-            place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.DRINK);
+            place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.TOY);
+            initialMovementSpeed = OwnerMovementController.speed;
+
             if (place != null)
             {
                 m_stateMachine.Params["destination"] = place.GetActorLocation;
+                OwnerMovementController.speed = 3f;
+                m_stateMachine.ChangeState<StateMoveTo>();
             }
-            m_stateMachine.ChangeState<StateMoveTo>();
+            else
+            {
+                m_stateMachine.IsCurrentState<StateExecute>();
+            }
+
         }
 
         public override void Tick(float deltaTime)
@@ -45,11 +57,17 @@ namespace Game.AI.Entities.Actions
                 if (m_initialInterruptionState != m_interruptible)
                     m_interruptible = m_initialInterruptionState;
 
-                thirstProperty.value -= 6f * deltaTime;
-                funProperty.value -= 0.1f * deltaTime;
+                energyProperty.value -= 1f * deltaTime;
+                thirstProperty.value += 0.2f * deltaTime;
+                hungerProperty.value += 0.3f * deltaTime;
+                funProperty.value += 15f * deltaTime;
 
-                if (thirstProperty.normalizedValue <= 0)
+                startExecutingActionTimer += deltaTime;
+
+                if (startExecutingActionTimer >= 3.8)
+                {
                     Owner.SetCompleteAction(this.Id);
+                }
             }
         }
 
@@ -60,7 +78,7 @@ namespace Game.AI.Entities.Actions
             {
                 place.StopUsing();
             }
-            OwnerAnimator.Play("Stand", 0);
+            OwnerMovementController.speed = initialMovementSpeed;
         }
     }
 }

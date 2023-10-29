@@ -22,6 +22,8 @@ namespace Game.AI.Entities
             base.Awake();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _localAnimator = GetComponentInChildren<Animator>();
+
+            OnAgentActionCompleted += OnActionCompletedEvent;
         }
 
         protected override void Start()
@@ -51,7 +53,7 @@ namespace Game.AI.Entities
                 _navMeshAgent.avoidancePriority = 0;
                 if (objectToLookAt != null)
                 {
-                    lookToTarget(objectToLookAt.GetActorLocation + objectToLookAt.GetActorTransform.forward * 2f);
+                    lookToTarget(objectToLookAt.GetActorLocation);
                 }
             }
             else
@@ -62,7 +64,12 @@ namespace Game.AI.Entities
 
         public void SetWalkTo(Vector3 destination)
         {
-            this.DemandAction("walkto");
+            if (!Params.ContainsKey("destination"))
+                Params.Add("destination", destination);
+            else
+                Params["destination"] = destination;
+
+            DemandAction("walkto");
         }
 
         InteractiveObject objectToLookAt;
@@ -78,6 +85,11 @@ namespace Game.AI.Entities
             {
                 return _navMeshAgent.pathPending || _navMeshAgent.remainingDistance > _navMeshAgent.stoppingDistance || _navMeshAgent.velocity != Vector3.zero;
             }
+        }
+
+        private void OnActionCompletedEvent(string actionId)
+        {
+            _localAnimator.Play("Stand", 0);
         }
     }
 }

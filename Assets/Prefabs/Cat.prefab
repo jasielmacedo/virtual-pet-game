@@ -48,8 +48,8 @@ MonoBehaviour:
   randomizeStartValue: 1
   minValue: 0
   maxValue: 100
-  startValue: 50
-  ChangePerSec: 0
+  startValue: 2
+  ChangePerSec: -0.5
 --- !u!1 &547062077126760198
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,6 +84,7 @@ Transform:
   - {fileID: 1162474157345900005}
   - {fileID: 6545327102321755105}
   - {fileID: 799335812849599126}
+  - {fileID: 5734954494610026991}
   m_Father: {fileID: 128750175669526252}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &560189677518292377
@@ -175,17 +176,17 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 1
-        inSlope: -2.1825953
-        outSlope: -2.1825953
+        inSlope: -0.43223724
+        outSlope: -0.43223724
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.30613035
-        value: 0.33184132
-        inSlope: -1.3304213
-        outSlope: -1.3304213
+        time: 0.67279905
+        value: 0.7091912
+        inSlope: -1.2998428
+        outSlope: -1.2998428
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334
@@ -193,19 +194,19 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 1
         value: 0
-        inSlope: -0.16172506
-        outSlope: -0.16172506
+        inSlope: -1.286449
+        outSlope: -1.286449
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33627835
+        inWeight: 0.066054694
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 0
     property: {fileID: 5064761344287715707}
-    weight: 1
+    weight: 3
     enabled: 1
-  considerExternalConsiderationsWhenEvaluate: 0
+  considerExternalConsiderationsWhenEvaluate: 1
   externalConsiderationWeight: 1
 --- !u!1 &2496970288949477155
 GameObject:
@@ -252,7 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_id: drinkWater
-  m_priorityLevel: 2
+  m_priorityLevel: 3
   m_interruptible: 0
   considerations:
   - utilityCurve:
@@ -282,7 +283,7 @@ MonoBehaviour:
     property: {fileID: 2939238354432058370}
     weight: 1
     enabled: 1
-  considerExternalConsiderationsWhenEvaluate: 0
+  considerExternalConsiderationsWhenEvaluate: 1
   externalConsiderationWeight: 1
 --- !u!1 &5056204170977217822
 GameObject:
@@ -332,8 +333,8 @@ MonoBehaviour:
   m_priorityLevel: 9
   m_interruptible: 0
   considerations: []
-  considerExternalConsiderationsWhenEvaluate: 0
-  externalConsiderationWeight: 1
+  considerExternalConsiderationsWhenEvaluate: 1
+  externalConsiderationWeight: 10
 --- !u!1 &5603963028465483714
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +384,7 @@ MonoBehaviour:
   minValue: 0
   maxValue: 100
   startValue: 50
-  ChangePerSec: 0
+  ChangePerSec: 0.3
 --- !u!1 &6033478466218861953
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,11 +431,11 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.4
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 80
   avoidancePriority: 50
   m_AngularSpeed: 320
-  m_StoppingDistance: 0
+  m_StoppingDistance: 0.2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -465,8 +466,10 @@ MonoBehaviour:
     actionEnabled: 1
   - action: {fileID: 3653674078667453669}
     actionEnabled: 1
-  - action: {fileID: 5937364797098929276}
+  - action: {fileID: 1179543870286854435}
     actionEnabled: 1
+  - action: {fileID: 5937364797098929276}
+    actionEnabled: 0
 --- !u!1 &6065955356856449546
 GameObject:
   m_ObjectHideFlags: 0
@@ -516,7 +519,7 @@ MonoBehaviour:
   minValue: 0
   maxValue: 100
   startValue: 50
-  ChangePerSec: 0
+  ChangePerSec: -0.2
 --- !u!1 &6308571310101175458
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +569,7 @@ MonoBehaviour:
   minValue: 0
   maxValue: 100
   startValue: 50
-  ChangePerSec: 0
+  ChangePerSec: 0.4
 --- !u!1 &6482631083593992252
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,6 +647,83 @@ MonoBehaviour:
     enabled: 1
   considerExternalConsiderationsWhenEvaluate: 0
   externalConsiderationWeight: 1
+--- !u!1 &7024301216878988124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5734954494610026991}
+  - component: {fileID: 1179543870286854435}
+  m_Layer: 6
+  m_Name: Play
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5734954494610026991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024301216878988124}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5510417941810268431}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1179543870286854435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7024301216878988124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7be586bc055f73479c89782cff4a946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_id: play
+  m_priorityLevel: 4
+  m_interruptible: 1
+  considerations:
+  - utilityCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -1
+        outSlope: -1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -1
+        outSlope: -1
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 0
+    property: {fileID: 4079701350461420016}
+    weight: 2
+    enabled: 1
+  considerExternalConsiderationsWhenEvaluate: 1
+  externalConsiderationWeight: 1
 --- !u!1 &7947455432480551362
 GameObject:
   m_ObjectHideFlags: 0
@@ -689,7 +769,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_id: eat
-  m_priorityLevel: 1
+  m_priorityLevel: 2
   m_interruptible: 0
   considerations:
   - utilityCurve:
@@ -698,8 +778,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 2
-        outSlope: 2
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
@@ -719,7 +799,7 @@ MonoBehaviour:
     property: {fileID: 7915403496387100316}
     weight: 1
     enabled: 1
-  considerExternalConsiderationsWhenEvaluate: 0
+  considerExternalConsiderationsWhenEvaluate: 1
   externalConsiderationWeight: 1
 --- !u!1001 &4850616156276479159
 PrefabInstance:
@@ -935,7 +1015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400052, guid: 0b5e9690d767fce47a398ad537f411c0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.0206
       objectReference: {fileID: 0}
     - target: {fileID: 400052, guid: 0b5e9690d767fce47a398ad537f411c0, type: 3}
       propertyPath: m_LocalPosition.z

@@ -20,6 +20,7 @@ namespace Game.UI
         private void Update()
         {
             UpdateCameraInteraction();
+            // MoveTheCatToThisPosition();
         }
 
         [Header("Camera Movement")]
@@ -68,10 +69,10 @@ namespace Game.UI
 
         [Header("Click Action")]
         [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private GameObject mouseGroundIndicator;
 
         void MoveTheCatToThisPosition()
         {
-            // Check for a mouse click
             if (Input.GetMouseButtonDown(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -79,7 +80,9 @@ namespace Game.UI
 
                 if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
                 {
-                    cat.DemandAction("walkTo");
+                    GameObject indicator = Instantiate(mouseGroundIndicator, hit.point, Quaternion.identity);
+                    cat.SetWalkTo(hit.point);
+                    Destroy(indicator, 0.5f);
                 }
             }
         }

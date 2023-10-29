@@ -11,6 +11,12 @@ namespace Game.AI.UtilityAI
         public delegate void OnUAIAgentEventHandler();
         public event OnUAIAgentEventHandler OnAgentInitialized;
 
+        public delegate void OnUAIAgentActionEventHandler(string action);
+        public event OnUAIAgentActionEventHandler OnAgentActionCompleted;
+
+        public delegate void OnReceivedEventFromActionHandler(string eventName, object eventValue);
+        public event OnReceivedEventFromActionHandler OnReceivedEventFromAction;
+
         public float secondsBetweenEvaluations = 0.0f;
 
         [HideInInspector]
@@ -31,6 +37,16 @@ namespace Game.AI.UtilityAI
 
         protected static int agentEvaluationCounter = 0;
         public static int maxAgentEvaluations = 0;
+
+        /// <summary>
+        /// Used to send variables between the agent and the actions
+        /// </summary>
+        public Hashtable Params
+        {
+            get { return m_paramsForStates; }
+            set { m_paramsForStates = value; }
+        }
+        protected Hashtable m_paramsForStates = new();
 
         protected override void Awake()
         {
@@ -106,9 +122,10 @@ namespace Game.AI.UtilityAI
         {
             for (int i = 0; i < linkedActions.Count; i++)
             {
-                if (linkedActions[i].action.Id == actionId && linkedActions[i].actionEnabled)
+                if (linkedActions[i].action.Id == actionId)
                 {
                     demandedActions.Add(linkedActions[i].action);
+                    secondsSinceLastEvaluation = 0.0f;
                     return true;
                 }
             }
@@ -143,7 +160,7 @@ namespace Game.AI.UtilityAI
 
             topAction.Tick(Time.deltaTime);
 
-            if (topAction.Interruptible)
+            if (topAction.Interruptible || demandedActions.Count > 0)
             {
                 secondsSinceLastEvaluation -= Time.deltaTime;
                 if (secondsSinceLastEvaluation <= 0.0f)
@@ -190,6 +207,7 @@ namespace Game.AI.UtilityAI
             if (topAction.Id == id)
             {
                 completeAction = true;
+                OnAgentActionCompleted?.Invoke(id);
             }
         }
 
@@ -215,24 +233,15 @@ namespace Game.AI.UtilityAI
 
             float topActionScore = 0.0f;
 
-            if (demandedActions.Count > 0)
+            for (int i = 0; i < linkedActions.Count; i++)
             {
-                topAction = demandedActions[0];
-                topActionScore = topAction.Score;
-                demandedActions.RemoveAt(0);
-            }
-            else
-            {
-                for (int i = 0; i < linkedActions.Count; i++)
+                if (linkedActions[i].actionEnabled)
                 {
-                    if (linkedActions[i].actionEnabled)
+                    linkedActions[i].action.EvaluateAction();
+                    if (linkedActions[i].action.Score > topActionScore)
                     {
-                        linkedActions[i].action.EvaluateAction();
-                        if (linkedActions[i].action.Score > topActionScore)
-                        {
-                            topAction = linkedActions[i].action;
-                            topActionScore = linkedActions[i].action.Score;
-                        }
+                        topAction = linkedActions[i].action;
+                        topActionScore = linkedActions[i].action.Score;
                     }
                 }
             }
@@ -264,18 +273,30 @@ namespace Game.AI.UtilityAI
             UAIAction topInterruption = topAction;
             bool validInterruption = false;
 
-            for (int i = 0; i < linkedActions.Count; i++)
+            if (demandedActions.Count > 0)
             {
-                if (linkedActions[i].actionEnabled)
+                topInterruption = demandedActions[0];
+                topActionScore = topAction.Score;
+                demandedActions.RemoveAt(0);
+                Debug.Log("Demanded action received");
+                validInterruption = true;
+            }
+            else
+            {
+
+                for (int i = 0; i < linkedActions.Count; i++)
                 {
-                    if (linkedActions[i].action.PriorityLevel < topActionPriority)
+                    if (linkedActions[i].actionEnabled)
                     {
-                        linkedActions[i].action.EvaluateAction();
-                        if (linkedActions[i].action.Score > currentActionScore && linkedActions[i].action.Score > topActionScore)
+                        if (linkedActions[i].action.PriorityLevel < topActionPriority)
                         {
-                            topInterruption = linkedActions[i].action;
-                            topActionScore = linkedActions[i].action.Score;
-                            validInterruption = true;
+                            linkedActions[i].action.EvaluateAction();
+                            if (linkedActions[i].action.Score > currentActionScore && linkedActions[i].action.Score > topActionScore)
+                            {
+                                topInterruption = linkedActions[i].action;
+                                topActionScore = linkedActions[i].action.Score;
+                                validInterruption = true;
+                            }
                         }
                     }
                 }
@@ -285,7 +306,10 @@ namespace Game.AI.UtilityAI
             {
                 newAction = true;
                 if (topAction != null)
+                {
                     topAction.ExitAction();
+                    SetCompleteAction(topAction.Id);
+                }
 
                 topAction = topInterruption;
                 topAction.EnterAction();
@@ -344,6 +368,11 @@ namespace Game.AI.UtilityAI
             {
                 (properties[id] as UAIPropertyBoolean).value = value;
             }
+        }
+
+        public void SendEventToOwner(string name, object value)
+        {
+            OnReceivedEventFromAction?.Invoke(name, value);
         }
     }
 

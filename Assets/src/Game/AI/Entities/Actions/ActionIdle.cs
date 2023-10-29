@@ -3,6 +3,8 @@ using Game.AI.FSM;
 using Game.AI.UtilityAI;
 using Game.AI.UtilityAI.Property;
 using Game.AI.Entities.Actions.States;
+using UnityEngine.AI;
+using Game.AI.Movement;
 
 
 namespace Game.AI.Entities.Actions
@@ -18,6 +20,8 @@ namespace Game.AI.Entities.Actions
 
         protected bool m_initialInterruptionState;
         protected Cat localCharacter;
+        protected Animator OwnerAnimator;
+        protected NavMeshAgent OwnerMovementController;
 
         public override void Initialize(UAIAgent _owner)
         {
@@ -43,6 +47,9 @@ namespace Game.AI.Entities.Actions
             thirstProperty = Owner.properties["thirst"] as UAIPropertyBoundedFloat;
 
             m_initialInterruptionState = m_interruptible;
+
+            OwnerAnimator = Owner.GetComponentInChildren<Animator>();
+            OwnerMovementController = Owner.GetComponent<NavMeshAgent>();
         }
 
         protected virtual void OnStateMachineStateChanged()
@@ -66,7 +73,8 @@ namespace Game.AI.Entities.Actions
                 m_stateMachine.Params["interaction"] = 0;
 
                 energyProperty.value -= 0.5f * deltaTime;
-                funProperty.value -= 5f * deltaTime;
+                funProperty.value -= 0.3f * deltaTime;
+                thirstProperty.value += 0.2f * deltaTime;
 
                 if (energyProperty.normalizedValue <= 0.1f)
                     Owner.SetCompleteAction(this.Id);
