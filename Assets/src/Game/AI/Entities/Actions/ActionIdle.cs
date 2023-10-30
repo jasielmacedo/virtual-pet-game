@@ -84,6 +84,7 @@ namespace Game.AI.Entities.Actions
         public override void ExitAction()
         {
             m_stateMachine.GotoInitialState();
+            m_stateMachine.Tick(Time.deltaTime);
         }
     }
 }

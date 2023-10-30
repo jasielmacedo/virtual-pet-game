@@ -20,7 +20,7 @@ namespace Game.UI
         private void Update()
         {
             UpdateCameraInteraction();
-            // MoveTheCatToThisPosition();
+            MoveTheCatToThisPosition();
         }
 
         [Header("Camera Movement")]

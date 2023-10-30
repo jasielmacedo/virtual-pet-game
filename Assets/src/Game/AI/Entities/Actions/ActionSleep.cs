@@ -16,6 +16,7 @@ namespace Game.AI.Entities.Actions
                 Transform randomPlace = availablePlaces[Random.Range(0, availablePlaces.Length)].transform;
                 m_stateMachine.Params["destination"] = randomPlace.position;
                 m_stateMachine.ChangeState<StateMoveTo>();
+                Debug.Log("place to sleep set");
             }
             else
             {
