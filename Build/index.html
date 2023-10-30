@@ -8,108 +8,109 @@
     <link rel="stylesheet" href="TemplateData/style.css" />
   </head>
   <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas
-        id="unity-canvas"
-        width="1280"
-        height="720"
-        tabindex="-1"
-      ></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
+    <div style="position: relative; width: 100%; height: 100vh">
+      <div id="unity-container" class="unity-desktop">
+        <canvas
+          id="unity-canvas"
+          width="1280"
+          height="600"
+          tabindex="-1"
+        ></canvas>
+        <div id="unity-loading-bar">
+          <div id="unity-logo"></div>
+          <div id="unity-progress-bar-empty">
+            <div id="unity-progress-bar-full"></div>
+          </div>
+        </div>
+        <div id="unity-warning"></div>
+        <div id="unity-footer" style="height: 40px">
+          <div id="unity-webgl-logo"></div>
+          <div id="unity-fullscreen-button"></div>
+          <div id="unity-build-title">pet-simulation</div>
         </div>
       </div>
-      <div id="unity-warning"></div>
-      <div id="unity-footer" style="height: 40px">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">pet-simulation</div>
-      </div>
-      <div
-        id="disclaimer"
-        style="margin-top: 20px; position: relative; font-size: 18px"
-      >
-        <h1>Cat Simulator - A Tech Code Challenge Project by Jazz Macedo</h1>
+    </div>
+    <div
+      id="disclaimer"
+      style="margin-top: 20px; position: relative; font-size: 18px"
+    >
+      <h1>Cat Simulator - A Tech Code Challenge Project by Jazz Macedo</h1>
 
-        <p>
-          Hello and welcome to my Cat Simulator project. I developed this
-          simulation in Unity to explore a specific approach to artificial
-          intelligence known as <strong>Utility-based Decision Making</strong>.
-          The idea is simple yet fascinating: a virtual cat in the simulation
-          has certain properties such as
-          <strong>Hunger, Thirst, Energy, and Fun</strong>.
-        </p>
+      <p>
+        Hello and welcome to my Cat Simulator project. I developed this
+        simulation in Unity to explore a specific approach to artificial
+        intelligence known as <strong>Utility-based Decision Making</strong>.
+        The idea is simple yet fascinating: a virtual cat in the simulation has
+        certain properties such as
+        <strong>Hunger, Thirst, Energy, and Fun</strong>.
+      </p>
 
-        <p>
-          The AI controlling the cat chooses actions based on these properties.
-          Actions can either increase or decrease specific properties. This way,
-          the AI makes decisions dynamically, simulating how a cat would
-          naturally behave.
-        </p>
+      <p>
+        The AI controlling the cat chooses actions based on these properties.
+        Actions can either increase or decrease specific properties. This way,
+        the AI makes decisions dynamically, simulating how a cat would naturally
+        behave.
+      </p>
 
-        <p>
-          While this is just a prototype, the goal is to capture authentic cat
-          behavior. If you observe closely, you'll notice that the cat behaves
-          in ways reminiscent of a real cat. It's not always predictable; while
-          you might guess its next move, ultimately the cat will decide.
-        </p>
+      <p>
+        While this is just a prototype, the goal is to capture authentic cat
+        behavior. If you observe closely, you'll notice that the cat behaves in
+        ways reminiscent of a real cat. It's not always predictable; while you
+        might guess its next move, ultimately the cat will decide.
+      </p>
 
-        <h2>Interactivity</h2>
+      <h2>Interactivity</h2>
 
-        <p>
-          There's a limited range of interaction you can have with the cat. The
-          main option available to you is to ask the cat to move to a specific
-          location. This is a particularly interesting aspect of the simulation,
-          as this action interrupts whatever the cat is currently doing. During
-          this time, the stats will fluctuate, giving the cat an opportunity to
-          make a new decision. This allows you to see the utility-based
-          decision-making approach in action.
-        </p>
+      <p>
+        There's a limited range of interaction you can have with the cat. The
+        main option available to you is to ask the cat to move to a specific
+        location. This is a particularly interesting aspect of the simulation,
+        as this action interrupts whatever the cat is currently doing. During
+        this time, the stats will fluctuate, giving the cat an opportunity to
+        make a new decision. This allows you to see the utility-based
+        decision-making approach in action.
+      </p>
 
-        <h2>Controls</h2>
+      <h2>Controls</h2>
 
-        <ul>
-          <li>
-            <strong>Camera Pan:</strong> Move your mouse to the corner of the
-            screen to shift the camera in that direction.
-          </li>
-          <li>
-            <strong>Move Cat:</strong> Click on the ground to direct the cat to
-            that location.
-          </li>
-        </ul>
+      <ul>
+        <li>
+          <strong>Camera Pan:</strong> Move your mouse to the corner of the
+          screen to shift the camera in that direction.
+        </li>
+        <li>
+          <strong>Move Cat:</strong> Click on the ground to direct the cat to
+          that location.
+        </li>
+      </ul>
 
-        <h2>Known Bugs (Or Are They Features? 😺)</h2>
+      <h2>Known Bugs (Or Are They Features? 😺)</h2>
 
-        <ul>
-          <li>
-            <strong>Sudden Naps:</strong>Occasionally, the cat may decide to
-            take a nap immediately after performing an action, rather than
-            moving to another location to execute a different action.
-          </li>
-          <li>
-            <strong>Ghost Play:</strong> Ever see a cat swatting at absolutely
-            nothing? Well, so have we! Our digital kitty sometimes engages in a
-            spirited game of 'catch the invisible mouse.' Spooky? Cute? You
-            decide!
-          </li>
-        </ul>
+      <ul>
+        <li>
+          <strong>Sudden Naps:</strong>Occasionally, the cat may decide to take
+          a nap immediately after performing an action, rather than moving to
+          another location to execute a different action.
+        </li>
+        <li>
+          <strong>Ghost Play:</strong> Ever see a cat swatting at absolutely
+          nothing? Well, so have we! Our digital kitty sometimes engages in a
+          spirited game of 'catch the invisible mouse.' Spooky? Cute? You
+          decide!
+        </li>
+      </ul>
 
-        <p>
-          These quirks might be considered bugs, or perhaps they add an extra
-          layer of realism, simulating the sometimes unpredictable nature of
-          cats. Regardless, they are aspects of the current prototype that are
-          under review.
-        </p>
+      <p>
+        These quirks might be considered bugs, or perhaps they add an extra
+        layer of realism, simulating the sometimes unpredictable nature of cats.
+        Regardless, they are aspects of the current prototype that are under
+        review.
+      </p>
 
-        <p>
-          Thank you for taking the time to check out my Cat Simulator. I hope
-          you enjoy observing the AI in action as much as I enjoyed developing
-          it.
-        </p>
-      </div>
+      <p>
+        Thank you for taking the time to check out my Cat Simulator. I hope you
+        enjoy observing the AI in action as much as I enjoyed developing it.
+      </p>
     </div>
     <script>
       var container = document.querySelector("#unity-container");
@@ -183,7 +184,7 @@
       } else {
         // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
 
-        canvas.style.width = "960px";
+        canvas.style.width = "1280px";
         canvas.style.height = "600px";
       }
 
