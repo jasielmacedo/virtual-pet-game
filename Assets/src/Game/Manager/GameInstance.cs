@@ -153,8 +153,6 @@ namespace Game.Manager
             return EGameInstanceState.Setup;
         }
 
-        int totalSpawned = 0;
-
         private EGameInstanceState Update_Playing()
         {
             generalTimerCounter += Time.deltaTime;
