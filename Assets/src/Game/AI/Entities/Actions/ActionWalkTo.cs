@@ -32,9 +32,9 @@ namespace Game.AI.Entities.Actions
 
             if (m_stateMachine.IsCurrentState<StateMoveTo>())
             {
-                funProperty.value -= 10f * deltaTime;
-                hungerProperty.value += 20f * deltaTime;
-                energyProperty.value += 5f * deltaTime;
+                funProperty.value -= 5f * deltaTime;
+                hungerProperty.value += 5f * deltaTime;
+                energyProperty.value -= 3f * deltaTime;
 
             }
             else if (m_stateMachine.IsCurrentState<StateExecute>())

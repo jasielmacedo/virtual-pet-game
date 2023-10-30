@@ -37,7 +37,11 @@ namespace Game.AI.Entities.Actions
             m_stateMachine.AddState<StateExecute>();
 
             m_stateMachine.SetInitialState<StateExecute>();
-            m_stateMachine.OnStateChanged += OnStateMachineStateChanged;
+            m_stateMachine.OnStateChanged += () =>
+            {
+                if (Owner.IsCurrentAction(Id))
+                    OnStateMachineStateChanged();
+            };
 
             m_stateMachine.Initialize();
 
@@ -83,6 +87,7 @@ namespace Game.AI.Entities.Actions
 
         public override void ExitAction()
         {
+            m_stateMachine.Params.Clear();
             m_stateMachine.GotoInitialState();
             m_stateMachine.Tick(Time.deltaTime);
         }

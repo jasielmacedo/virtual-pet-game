@@ -45,7 +45,7 @@ namespace Game.AI.Entities.Actions
 
                 funProperty.value -= 1f * deltaTime;
                 hungerProperty.value += 0.8f * deltaTime;
-                energyProperty.value += 4f * deltaTime;
+                energyProperty.value += 3f * deltaTime;
                 thirstProperty.value += 0.1f * deltaTime;
 
                 if (energyProperty.normalizedValue == 1f)
