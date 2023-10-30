@@ -48,10 +48,60 @@
         Hello and welcome to my Cat Simulator project. I developed this
         simulation in Unity to explore a specific approach to artificial
         intelligence known as <strong>Utility-based Decision Making</strong>.
-        The idea is simple yet fascinating: a virtual cat in the simulation has
-        certain properties such as
+        The idea is simple yet fascinating: a virtual cat to act like a real
+        one.
+      </p>
+
+      <h2>AI: Utility-Based Decision Making</h2>
+
+      <p>
+        For those unfamiliar with the concept,
+        <strong>Utility-Based Decision Making</strong> is an AI technique where
+        each possible action is assigned a utility score based on the current
+        state of the agent—in this case, our cat. These utility scores are
+        derived from a function that considers various properties of the agent.
+        For our cat, these properties are
         <strong>Hunger, Thirst, Energy, and Fun</strong>.
       </p>
+
+      <p>
+        So how does it work? Simple. When it's time for the cat to decide what
+        to do next, the utility function crunches the numbers and assigns a
+        utility score to each available action based on the cat's current stats.
+        The AI then chooses the action with the highest utility score to
+        execute. This means that if the cat is super thirsty, the utility
+        function might favor actions like 'Drink Water,' causing the AI to make
+        the cat head toward a water source.
+      </p>
+
+      <p>
+        What makes this approach particularly intriguing is its dynamic nature.
+        The cat's needs are constantly changing, and the utility function adapts
+        to these fluctuations in real-time. This results in a more natural and
+        sometimes unpredictable behavior, closely resembling how real cats act.
+        So, don't be surprised if our virtual kitty sometimes throws you a
+        curveball!
+      </p>
+
+      <h3>Cat Properties</h3>
+
+      <ul>
+        <li>Hunger</li>
+        <li>Thirst</li>
+        <li>Energy</li>
+        <li>Fun</li>
+      </ul>
+
+      <h3>Cat Possible Actions</h3>
+
+      <ul>
+        <li>Eat</li>
+        <li>Sleep</li>
+        <li>Play with something</li>
+        <li>Drink Water</li>
+        <li>Lick itself</li>
+        <li>Do nothing</li>
+      </ul>
 
       <p>
         The AI controlling the cat chooses actions based on these properties.
@@ -65,6 +115,34 @@
         behavior. If you observe closely, you'll notice that the cat behaves in
         ways reminiscent of a real cat. It's not always predictable; while you
         might guess its next move, ultimately the cat will decide.
+      </p>
+
+      <h2>AI: Cat Movement with Nav Mesh for Pathfinding</h2>
+
+      <p>
+        The cat's movement in the simulation relies on Unity's <strong>Navigation Mesh (Nav Mesh)</strong> for pathfinding. The Nav Mesh allows the cat to intelligently navigate the environment, taking into account various obstacles and geometry to find the most efficient route to its target location.
+      </p>
+
+      <img src="./images/nav-mesh.png" width="480" alt="Nav-Mesh under the hood" />
+
+      <h2>AI: Agent's Action with Finite State Machine</h2>
+
+      <p>
+        Once the Utility-based decision making agent decides the next Action, a FSM inside of the Action is triggered and initialized</p>
+      </p>
+
+      <p>
+        Each action that the cat can perform is implemented using a <strong>Finite State Machine (FSM)</strong>. The FSM is responsible for managing transitions between different states associated with each action. The primary states are as follows:
+      </p>
+      
+      <ul>
+        <li><strong>Idle:</strong> In this state, the cat evaluates its environment and internal status. The utility function computes utility scores for each possible action, and the cat prepares to transition to the next state based on the highest-scoring action.</li>
+        <li><strong>MoveTo:</strong> In the MoveTo state, the cat uses the Nav Mesh to navigate to the specific location where it will perform its chosen action. The pathfinding algorithm ensures that the cat takes an efficient route, avoiding obstacles as needed.</li>
+        <li><strong>Execute:</strong> Upon reaching the target location, the cat transitions to the Execute state where it performs the chosen action, be it eating, drinking, or playing. The execution of this action may result in changes to the cat's internal properties, influencing future decisions.</li>
+      </ul>
+      
+      <p>
+        This FSM-based approach provides a structured yet flexible framework for the AI, allowing for a diverse range of realistic and dynamic behaviors.
       </p>
 
       <h2>Interactivity</h2>
@@ -117,6 +195,12 @@
         layer of realism, simulating the sometimes unpredictable nature of cats.
         Regardless, they are aspects of the current prototype that are under
         review.
+      </p>
+
+      <h2>Source Code</h2>
+
+      <p>
+       The code is available on <a href="https://github.com/jasielmacedo/virtual-pet-game" target="_blank">Github</a>
       </p>
 
       <p>
