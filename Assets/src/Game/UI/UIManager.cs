@@ -28,29 +28,31 @@ namespace Game.UI
 
             var action = cat.GetCurrentAction() as ActionIdle;
 
-            action.StateMachine.IsCurrentState<StateExecute>();
-            string state;
-            switch (action.Id){
-                case "eat":
-                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Eating cat food" : "Going to Eat";
-                break;
-                case "drinkWater":
-                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Drinking water" : "Going to drink water";
-                break;
-                case "play":
-                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Having fun" : "Going to play with a toy";
-                break;
-                case "sleep":
-                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Sleeping" : "Going to sleep";
-                break;
-                case "walkto":
-                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "In an specific location" : "Going to a specific location";
-                break;
-                default:
-                     state = "Licking itself";
-                break;
+            if(action != null){
+                action.StateMachine.IsCurrentState<StateExecute>();
+                string state;
+                switch (action.Id){
+                    case "eat":
+                        state = action.StateMachine.IsCurrentState<StateExecute>() ? "Eating cat food" : "Going to Eat";
+                    break;
+                    case "drinkWater":
+                        state = action.StateMachine.IsCurrentState<StateExecute>() ? "Drinking water" : "Going to drink water";
+                    break;
+                    case "play":
+                        state = action.StateMachine.IsCurrentState<StateExecute>() ? "Having fun" : "Going to play with a toy";
+                    break;
+                    case "sleep":
+                        state = action.StateMachine.IsCurrentState<StateExecute>() ? "Sleeping" : "Going to sleep";
+                    break;
+                    case "walkto":
+                        state = action.StateMachine.IsCurrentState<StateExecute>() ? "In an specific location" : "Going to a specific location";
+                    break;
+                    default:
+                        state = "Licking itself";
+                    break;
+                }
+                txtState.text = $"State: {state}";
             }
-            txtState.text = $"State: {state}";
         }
 
         [Header("Camera Movement")]
