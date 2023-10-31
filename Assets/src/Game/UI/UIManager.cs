@@ -44,7 +44,7 @@ namespace Game.UI
                     state = action.StateMachine.IsCurrentState<StateExecute>() ? "Sleeping" : "Going to sleep";
                 break;
                 case "walkto":
-                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "In an specific location" : "Going to an specific location";
+                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "In an specific location" : "Going to a specific location";
                 break;
                 default:
                      state = "Licking itself";

@@ -17,6 +17,9 @@ namespace Game.AI.Entities
         public UtilityAI.Property.UAIProperty StatEnergy => this.properties["energy"];
         public UtilityAI.Property.UAIProperty StatFun => this.properties["fun"];
 
+        [SerializeField] private Material[] catSkin;
+        [SerializeField] private SkinnedMeshRenderer catMesh;
+
         protected override void Awake()
         {
             base.Awake();
@@ -29,6 +32,7 @@ namespace Game.AI.Entities
         protected override void Start()
         {
             base.Start();
+            catMesh.material = catSkin[Random.Range(0, catSkin.Length)];
         }
 
         float currentVelocityToAnimation = 0.0f;

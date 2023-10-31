@@ -24825,6 +24825,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1571461385857385190, guid: 5e34cf7537839fd4f9622656726ca5c6, type: 3}
   m_PrefabInstance: {fileID: 1890677012}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &1894986774 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4850616156273270551, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
+  m_PrefabInstance: {fileID: 4611826113981298488}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1900592955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28320,6 +28325,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5342542095761774700, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
+      propertyPath: catMesh
+      value: 
+      objectReference: {fileID: 1894986774}
+    - target: {fileID: 5342542095761774700, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
+      propertyPath: catSkin.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342542095761774700, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
+      propertyPath: catSkin.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 18ee2156fcbb16848bd9da6f5186948c, type: 2}
+    - target: {fileID: 5342542095761774700, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
+      propertyPath: catSkin.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: e85565179631bcf4b8900b8984351f1c, type: 2}
+    - target: {fileID: 5342542095761774700, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
+      propertyPath: catSkin.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2ae2c20c35f02a54d85cfaa5882035db, type: 2}
     - target: {fileID: 5726819814516435332, guid: 1c5a7b8688f2d47f89b9b7c7537e5671, type: 3}
       propertyPath: m_StoppingDistance
       value: 0
