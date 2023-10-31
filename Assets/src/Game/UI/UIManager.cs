@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Game.Actors;
+using Game.AI.Entities.Actions;
+using Game.AI.Entities.Actions.States;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +12,7 @@ namespace Game.UI
     {
         [Header("Entity")]
         [SerializeField] private Game.AI.Entities.Cat cat;
+        [SerializeField] private Text txtState;
 
         [Header("Sliders")]
         [SerializeField] private Slider sliderHunger;
@@ -21,6 +25,32 @@ namespace Game.UI
         {
             UpdateCameraInteraction();
             MoveTheCatToThisPosition();
+
+            var action = cat.GetCurrentAction() as ActionIdle;
+
+            action.StateMachine.IsCurrentState<StateExecute>();
+            string state;
+            switch (action.Id){
+                case "eat":
+                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Eating cat food" : "Going to Eat";
+                break;
+                case "drinkWater":
+                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Drinking water" : "Going to drink water";
+                break;
+                case "play":
+                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Having fun" : "Going to play with a toy";
+                break;
+                case "sleep":
+                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "Sleeping" : "Going to sleep";
+                break;
+                case "walkto":
+                    state = action.StateMachine.IsCurrentState<StateExecute>() ? "In an specific location" : "Going to an specific location";
+                break;
+                default:
+                     state = "Licking itself";
+                break;
+            }
+            txtState.text = $"State: {state}";
         }
 
         [Header("Camera Movement")]
@@ -68,7 +98,7 @@ namespace Game.UI
         }
 
         [Header("Click Action")]
-        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private LayerMask interactionLayer;
         [SerializeField] private GameObject mouseGroundIndicator;
 
         void MoveTheCatToThisPosition()
@@ -78,10 +108,33 @@ namespace Game.UI
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, groundLayer))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactionLayer))
                 {
                     GameObject indicator = Instantiate(mouseGroundIndicator, hit.point, Quaternion.identity);
-                    cat.SetWalkTo(hit.point);
+
+                    if(hit.collider.transform.TryGetComponent<InteractiveObject>(out var interaction))
+                    {
+                        switch(interaction.InteractiveType){
+                            case InteractiveObject.EInteractiveType.FOOD:
+                                cat.Params["food"] = interaction;
+                                cat.DemandAction("eat");
+                            break;
+                            case InteractiveObject.EInteractiveType.DRINK:
+                                cat.Params["drink"] = interaction;
+                                cat.DemandAction("drinkWater");
+                            break;
+                            case InteractiveObject.EInteractiveType.TOY:
+                                cat.Params["play"] = interaction;
+                                cat.DemandAction("play");
+                            break;
+                            case InteractiveObject.EInteractiveType.SLEEP_PLACE:
+                                cat.Params["sleep"] = interaction;
+                                cat.DemandAction("sleep");
+                            break;
+                        }
+                    }else{
+                        cat.SetWalkTo(hit.point);
+                    }
                     Destroy(indicator, 0.5f);
                 }
             }

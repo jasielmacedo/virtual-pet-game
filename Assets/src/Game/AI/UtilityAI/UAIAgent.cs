@@ -120,6 +120,9 @@ namespace Game.AI.UtilityAI
 
         public bool DemandAction(string actionId)
         {
+            if(IsCurrentAction(actionId))
+                return false;
+
             for (int i = 0; i < linkedActions.Count; i++)
             {
                 if (linkedActions[i].action.Id == actionId)

@@ -28,7 +28,13 @@ namespace Game.AI.Entities.Actions
 
         public override void EnterAction()
         {
-            objectOfInterest = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.FOOD);
+            if(Owner.Params.ContainsKey("food")){
+                objectOfInterest = Owner.Params["food"] as InteractiveObject;
+                Owner.Params.Remove("food");
+            }else{
+                objectOfInterest = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.FOOD);
+            }
+
             if (objectOfInterest != null)
             {
                 m_stateMachine.Params["destination"] = objectOfInterest.GetActorLocation;

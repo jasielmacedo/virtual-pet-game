@@ -32,7 +32,13 @@ namespace Game.AI.Entities.Actions
 
         public override void EnterAction()
         {
-            place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.TOY);
+            if(Owner.Params.ContainsKey("play")){
+                place = Owner.Params["play"] as InteractiveObject;
+                Owner.Params.Remove("play");
+            }else{
+                place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.TOY);
+            }
+            
             initialMovementSpeed = OwnerMovementController.speed;
 
             if (place != null)

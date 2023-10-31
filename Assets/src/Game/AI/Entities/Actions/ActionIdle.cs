@@ -11,6 +11,7 @@ namespace Game.AI.Entities.Actions
 {
     public class ActionIdle : UAIAction
     {
+        public FSMStateMachine StateMachine => m_stateMachine;
         protected FSMStateMachine m_stateMachine;
 
         protected UAIPropertyBoundedFloat hungerProperty;
@@ -77,7 +78,7 @@ namespace Game.AI.Entities.Actions
                 m_stateMachine.Params["interaction"] = 0;
 
                 energyProperty.value -= 0.5f * deltaTime;
-                funProperty.value -= 0.3f * deltaTime;
+                funProperty.value -= 0.5f * deltaTime;
                 thirstProperty.value += 0.2f * deltaTime;
 
                 if (energyProperty.normalizedValue <= 0.1f)

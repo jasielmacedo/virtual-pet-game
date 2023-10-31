@@ -11,7 +11,13 @@ namespace Game.AI.Entities.Actions
         {
             GameObject[] availablePlaces = GameObject.FindGameObjectsWithTag("sleep");
 
-            if (availablePlaces.Length > 0)
+            if(Owner.Params.ContainsKey("sleep")){
+                var place = Owner.Params["sleep"] as InteractiveObject;
+                Owner.Params.Remove("sleep");
+
+                m_stateMachine.Params["destination"] = place.transform.position;
+                m_stateMachine.ChangeState<StateMoveTo>();
+            }else if (availablePlaces.Length > 0)
             {
                 Transform randomPlace = availablePlaces[Random.Range(0, availablePlaces.Length)].transform;
                 m_stateMachine.Params["destination"] = randomPlace.position;
@@ -43,9 +49,9 @@ namespace Game.AI.Entities.Actions
                 if (m_initialInterruptionState != m_interruptible)
                     m_interruptible = m_initialInterruptionState;
 
-                funProperty.value -= 1f * deltaTime;
+                funProperty.value -= 0.9f * deltaTime;
                 hungerProperty.value += 0.8f * deltaTime;
-                energyProperty.value += 3f * deltaTime;
+                energyProperty.value += 2.2f * deltaTime;
                 thirstProperty.value += 0.1f * deltaTime;
 
                 if (energyProperty.normalizedValue == 1f)

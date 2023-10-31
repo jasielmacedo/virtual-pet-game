@@ -28,11 +28,18 @@ namespace Game.AI.Entities.Actions
 
         public override void EnterAction()
         {
-            place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.DRINK);
+            if(Owner.Params.ContainsKey("drink")){
+                place = Owner.Params["drink"] as InteractiveObject;
+                Owner.Params.Remove("drink");
+            }else{
+                place = HomeInstance.Instance.GetRandomObject(InteractiveObject.EInteractiveType.DRINK);
+            }
+            
             if (place != null)
             {
                 m_stateMachine.Params["destination"] = place.GetActorLocation;
             }
+
             m_stateMachine.ChangeState<StateMoveTo>();
         }
 
